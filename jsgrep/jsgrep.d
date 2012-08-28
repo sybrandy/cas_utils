@@ -11,6 +11,8 @@ import std.stdio: writeln, writefln;
 import std.string: chomp;
 import std.typecons: Flag, No, Yes;
 
+extern(C) int isatty(int);
+
 // Simple structure to hold all of the options instead of declaring many
 // individual variables.
 struct Options
@@ -25,6 +27,10 @@ struct Options
 
 int main(string[] args)
 {
+    if (isatty(1) == 0)
+    {
+        args ~= "--oneline";
+    }
     bool recursive, countMatches;
     getopt(args,
            std.getopt.config.bundling,
