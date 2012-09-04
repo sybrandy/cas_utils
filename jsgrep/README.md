@@ -19,7 +19,7 @@ allow easier processing of the data via scripts.
 
 ## DEPENDENCIES
 
-A D compiler.  Currently using v. 2.060.
+A D compiler.  Currently using v. 2.060. - [http://dlang.org/](http://dlang.org/)
 
 ## FILE LIST
 
