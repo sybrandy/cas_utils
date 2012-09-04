@@ -64,6 +64,13 @@ needed.
 
 For DMD: dmd -O -releaes jsgrep.d
 
+If DMD is installed, you can also use the associated Makefile to generate the
+different builds.  There are three make targets:
+
+* release -- Creates a release build.
+* debug -- Creates a version with debugging statements enabled.
+* profile -- Creates a version with profiling turned on.
+
 ## KNOWN LIMITATIONS/DEFECTS
 
 Currently, we do not grep for values.  This can be done by piping the reults
