@@ -80,6 +80,9 @@ void main()
     }
     else
     {
-        // TODO: Read from STDIN and send output to STDOUT.
+        foreach (char[] line; stdin.byLine)
+        {
+            write(toRedisProto(line.idup));
+        }
     }
 }
