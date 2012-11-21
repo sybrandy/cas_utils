@@ -3,6 +3,7 @@ import std.array;
 import std.conv;
 import std.format;
 import std.string;
+import std.parallelism;
 
 string toRedisProto(string command)
 {
@@ -32,6 +33,7 @@ string toRedisProto(string command)
     return proto.data;
 }
 
+pure
 string[] parseString(string command)
 {
     string[] parts;
@@ -80,7 +82,8 @@ void main()
     }
     else
     {
-        foreach (char[] line; stdin.byLine)
+        auto reader = taskPool.asyncBuf(stdin.byLine);
+        foreach (char[] line; reader)
         {
             write(toRedisProto(line.idup));
         }
