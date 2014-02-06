@@ -5,12 +5,21 @@ import std.format;
 import std.string;
 import std.parallelism;
 
+/**
+ * Converts a redis command to the Redis protocol format.
+ * Params:
+ *   command = The command to be translated.
+ * Returns: The command rewritten in the Redis protocol format.
+ */
 string toRedisProto(string command)
 {
     auto proto = appender!(string)();
 
+    // Check to see if we can use a "fast" method to parse the command.
     if (command.indexOf("\"") > 0)
     {
+        // If there are quotes, we run the command through a parser before
+        // reformatting it.
         string[] parts = parseString(command);
         formattedWrite(proto, "*%d\r\n", parts.length);
         for (int i = 0; i < parts.length; i++)
@@ -20,6 +29,7 @@ string toRedisProto(string command)
     }
     else
     {
+        // No quotes, so split the command using spaces before formatting.
         string[] args = split(command);
         formattedWrite(proto, "*%d\r\n", args.length);
 
@@ -33,6 +43,15 @@ string toRedisProto(string command)
     return proto.data;
 }
 
+/**
+ * Parse the various portions of the Redis command into separate array
+ * elements.
+ *
+ * Params:
+ *    command = The command to be parsed.
+ * Returns: An array containing the parts of the command.
+ */
+// TODO: Consider ensuring this works with embedded quotes, if necessary.
 pure
 string[] parseString(string command)
 {
